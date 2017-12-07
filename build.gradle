@@ -1,0 +1,75 @@
+group 'com.kirill'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'maven'
+
+project.ext {
+    group = group
+    version = version
+    artifactId = 'wix-automation'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile "org.apache.commons:commons-io:1.3.2"
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.2'
+	testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+allprojects {
+    afterEvaluate {
+        File log = new File('gradle_log.txt')
+        if (log.exists()) {
+            println "Deleting old log file " + log
+            log.delete()
+        }
+    }
+}
+
+jar {
+    archiveName = "com/kirill/automation/$version/automation-" + version + '.jar'
+    manifest {
+        attributes 'Implementation-Title' : 'Gradle core',
+                'Implementation-Version': version,
+                'Built-By' : 'Kirill Ageev',
+                'Built-Date' : new Date(),
+                'Built-JDK' : System.getProperty('java.version'),
+                'Built-Gradle' : gradle.gradleVersion
+    }
+}
+
+//uploadArchives {
+//    doFirst {
+//        repositories {
+//            mavenDeployer {
+//                pom.version = project.ext.version
+//                pom.artifactId = project.ext.artifactId
+//                pom.groupId = project.ext.group
+//            }
+//        }
+//
+//        repositories {
+//            mavenDeployer {
+//                repository(url: 'http://url/') {
+//                    authentication(userName: 'admin', password: 'admin123')
+//                }
+//            }
+//        }
+//    }
+//}
