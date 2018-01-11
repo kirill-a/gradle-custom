@@ -43,7 +43,7 @@ allprojects {
 }
 
 jar {
-    archiveName = "com/kirill/automation/$version/automation-" + version + '.jar'
+    archiveName = "automation-" + version + '.jar'
     manifest {
         attributes 'Implementation-Title' : 'Gradle core',
                 'Implementation-Version': version,
